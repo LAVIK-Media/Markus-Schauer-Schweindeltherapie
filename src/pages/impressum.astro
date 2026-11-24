@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import SeitenKopf from '../components/SeitenKopf.astro';
+import { SITE } from '../data/site';
+const pfad = [{ href: '/impressum/', label: 'Impressum' }];
+---
+<Base titel="Impressum | Schwindeltherapie Markus Schauer" beschreibung="Impressum der Praxis für Schwindeltherapie Markus Schauer, Bad Tölz." pfad={pfad} noindex>
+  <SeitenKopf titel="Impressum" bild="tal" pfad={pfad} />
+  <div class="wrap"><div class="recht">
+    <section><h2>Anbieter</h2><p>Markus Schauer<br />Wasenstein 8a<br />83661 Lenggries</p></section>
+    <section><h2>Praxis</h2><p>{SITE.strasse}<br />{SITE.plz} {SITE.ort}</p></section>
+    <section><h2>Kontakt</h2><p>Telefon: <a href={`tel:${SITE.telefonLink}`}>{SITE.telefonAnzeige}</a><br />E-Mail: <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p></section>
+    <section><h2>Verantwortlich für den Inhalt</h2><p>Markus Schauer, Wasenstein 8a, 83661 Lenggries</p></section>
+    <section><h2>Berufsbezeichnung und Aufsicht</h2><p>Heilpraktiker nach dem Heilpraktikergesetz. Behördliche Zulassung: Landeshauptstadt München.</p><p>Aufsichtsbehörde: Landratsamt Bad Tölz-Wolfratshausen, Prof.-Max-Lange-Platz 1, 83646 Bad Tölz</p></section>
+    <section><h2>Haftung</h2><p>Die Informationen auf diesen Seiten sind gewissenhaft recherchiert und mit Sorgfalt eingebracht worden. Trotzdem kann keine Haftung und Garantie übernommen werden. Die bereitgestellten Informationen sind allgemeiner Art und unverbindlich. Eine Haftung für Sach-, Vermögens- und Personenschäden durch Informationen dieser Seiteninhalte wird ausgeschlossen.</p><p>Diese Website kann keinen Arzt ersetzen. Die dargestellten Informationen dienen nicht Diagnosezwecken und nicht als Empfehlung einer Therapie.</p></section>
+    <section><h2>Links</h2><p>Diese Website enthält Verknüpfungen zu Seiten Dritter. Auf deren Gestaltung und Inhalte habe ich keinen Einfluss. Verantwortlich ist der jeweilige Betreiber.</p></section>
+    <section><h2>Urheberrecht</h2><p>Alle auf dieser Website veröffentlichten Elemente, Beiträge und Abbildungen sind urheberrechtlich geschützt. Das Kopieren von Texten und Bildern ist grundsätzlich nicht erlaubt.</p></section>
+  </div></div>
+</Base>

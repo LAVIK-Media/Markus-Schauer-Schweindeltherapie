@@ -1,0 +1,16 @@
+---
+// Umgebungskarte aus echten Koordinaten, ohne Kartendienst
+const L = 47.7613, O = 11.5428, K = 9.2, X = 372, Y = 432;
+const orte: [string, number, number, 'r' | 'l', number?][] = [
+  ['München', 48.137, 11.575, 'r'], ['Wolfratshausen', 47.913, 11.419, 'l'], ['Geretsried', 47.857, 11.482, 'l'], ['Holzkirchen', 47.877, 11.701, 'r'],
+  ['Miesbach', 47.789, 11.834, 'r'], ['Waakirchen', 47.7736, 11.674, 'r', 9], ['Reichersbeuern', 47.77, 11.629, 'r', -12], ['Tegernsee', 47.713, 11.758, 'r'],
+  ['Gaißach', 47.7453, 11.579, 'r', 8], ['Wackersberg', 47.7337, 11.5539, 'l', 8], ['Lenggries', 47.6806, 11.5733, 'r'], ['Penzberg', 47.75, 11.376, 'l'],
+];
+const px = (la: number, lo: number) => [X + (lo - O) * 74.8 * K, Y - (la - L) * 111.2 * K];
+---
+<svg class="karte-svg" viewBox="0 0 760 620" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Karte: Bad Tölz und umliegende Orte bis München">
+  {[10, 20, 40].map((r) => <><circle class="ring" cx={X} cy={Y} r={r * K} /><text class="ringtext" x={X - r * K * 0.71 - 6} y={Y + r * K * 0.71 > 600 ? Y - r * K * 0.71 : Y + r * K * 0.71 + 4} text-anchor="end">{r} km</text></>)}
+  {orte.map(([n, la, lo, s, dy = 5]) => { const [x, y] = px(la, lo); return <><circle class="ort" cx={x} cy={y} r="4.5" /><text x={x + (s === 'r' ? 11 : -11)} y={y + dy} text-anchor={s === 'r' ? 'start' : 'end'}>{n}</text></>; })}
+  <circle cx={X} cy={Y} r="26" fill="#fff" opacity="0.18" /><circle cx={X} cy={Y} r="10" fill="#fff" />
+  <text class="praxis-text" x={X - 20} y={Y - 16} text-anchor="end">Bad Tölz</text>
+</svg>

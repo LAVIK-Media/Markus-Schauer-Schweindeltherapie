@@ -1,0 +1,22 @@
+{
+  "name": "schwindeltherapie-schauer",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev --port 4330",
+    "build": "astro build",
+    "build:live": "PUBLIC_LIVE=true astro build",
+    "umleitungen": "node scripts/umleitungen.mjs",
+    "preview": "astro preview --port 4330"
+  },
+  "dependencies": {
+    "astro": "^7.4.13"
+  },
+  "devDependencies": {
+    "@fontsource-variable/figtree": "^5.3.0",
+    "@fontsource-variable/newsreader": "^5.3.0",
+    "subset-font": "^2.9.0",
+    "three": "^0.187.0"
+  }
+}

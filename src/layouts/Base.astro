@@ -1,0 +1,172 @@
+---
+import '../styles/global.css';
+import { SITE, NAV, LIVE, UMGEBUNG, THERAPIEN } from '../data/site';
+import { ERKRANKUNGEN, SELTENE } from '../data/erkrankungen';
+import Logo from '../components/Logo.astro';
+
+interface Props {
+  titel: string;
+  beschreibung: string;
+  pfad?: { href: string; label: string }[];
+  schema?: Record<string, unknown>[];
+  seitentyp?: string;
+  noindex?: boolean;
+  faq?: { f: string; a: string }[];
+  bild?: string;
+}
+const { titel, beschreibung, pfad = [], schema = [], seitentyp = 'WebPage', noindex = false, faq, bild = '/bilder/og.jpg' } = Astro.props;
+const aktuell = Astro.url.pathname;
+const url = new URL(aktuell, SITE.url).href;
+const b = SITE.url;
+
+const praxis = {
+  '@type': ['Physiotherapy', 'MedicalBusiness'],
+  '@id': `${b}/#praxis`,
+  name: SITE.name,
+  alternateName: ['Praxis für Schwindeltherapie Bad Tölz', 'schwindelbehandlung.de'],
+  description: 'Praxis für Schwindeltherapie (Vertigo, vestibuläre Rehabilitation) in Bad Tölz. Behandelt werden ausschließlich Patienten mit Schwindel und Gleichgewichtsstörungen.',
+  url: `${b}/`,
+  telephone: SITE.telefonLink,
+  email: SITE.email,
+  image: `${b}/bilder/markus-schauer-heilpraktiker-physiotherapeut.jpg`,
+  logo: `${b}/icon-512.png`,
+  address: { '@type': 'PostalAddress', streetAddress: SITE.strasse, postalCode: SITE.plz, addressLocality: SITE.ort, addressRegion: 'Bayern', addressCountry: 'DE' },
+  geo: { '@type': 'GeoCoordinates', latitude: SITE.geo.lat, longitude: SITE.geo.lng },
+  hasMap: SITE.route,
+  areaServed: [...[SITE.ort, ...UMGEBUNG].map((name) => ({ '@type': 'Place', name })), { '@type': 'Country', name: 'Deutschland' }],
+  founder: { '@id': `${b}/#markus-schauer` },
+  knowsAbout: ['Schwindel', 'Vertigo', 'Vestibuläre Rehabilitation', ...ERKRANKUNGEN.map((e) => e.name), ...SELTENE.map((s) => s.name)],
+  hasOfferCatalog: { '@type': 'OfferCatalog', name: 'Schwindeltherapie', itemListElement: THERAPIEN.flatMap((g) => g.items).map((name) => ({ '@type': 'Offer', itemOffered: { '@type': 'MedicalTherapy', name } })) },
+  sameAs: [SITE.facebook, SITE.linkedin, SITE.xing],
+};
+const person = {
+  '@type': 'Person',
+  '@id': `${b}/#markus-schauer`,
+  name: SITE.person,
+  jobTitle: ['Physiotherapeut', 'Heilpraktiker', 'Schwindeltherapeut'],
+  description: 'Physiotherapeut (seit 1996) und Heilpraktiker (seit 2003) mit Spezialisierung auf Schwindel und vestibuläre Rehabilitation in Bad Tölz.',
+  url: `${b}/ueber-mich/`,
+  image: `${b}/bilder/markus-schauer-heilpraktiker-physiotherapeut.jpg`,
+  worksFor: { '@id': `${b}/#praxis` },
+  knowsAbout: ['Schwindel', 'Vertigo', 'Vestibuläre Rehabilitation', 'PPPD', 'Lagerungsschwindel', 'EMDR', 'Manuelle Therapie'],
+  hasCredential: [
+    ['Physiotherapeut', '1996'], ['Heilpraktiker', '2003'], ['EMDR-Coach und Therapeut', ''], ['Schwindel- und Vestibulartherapeut', ''], ['Manuelle Therapie (Kaltenborn-Evjenth)', '2001'],
+  ].map(([name, dateCreated]) => ({ '@type': 'EducationalOccupationalCredential', name, ...(dateCreated ? { dateCreated } : {}) })),
+  sameAs: [SITE.facebook, SITE.linkedin, SITE.xing],
+};
+const graph: Record<string, unknown>[] = [
+  praxis,
+  person,
+  { '@type': 'WebSite', '@id': `${b}/#website`, url: `${b}/`, name: SITE.name, inLanguage: 'de-DE', publisher: { '@id': `${b}/#praxis` } },
+  { '@type': seitentyp, '@id': `${url}#seite`, url, name: titel, description: beschreibung, inLanguage: 'de-DE', isPartOf: { '@id': `${b}/#website` }, about: { '@id': `${b}/#praxis` }, author: { '@id': `${b}/#markus-schauer` }, publisher: { '@id': `${b}/#praxis` }, dateModified: SITE.stand, ...(pfad.length ? { breadcrumb: { '@id': `${url}#pfad` } } : {}), ...(seitentyp === 'MedicalWebPage' ? { speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.kurzantwort'] }, audience: { '@type': 'PeopleAudience', audienceType: 'Patienten mit Schwindel' } } : {}) },
+  ...(pfad.length ? [{ '@type': 'BreadcrumbList', '@id': `${url}#pfad`, itemListElement: [{ href: '/', label: 'Start' }, ...pfad].map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: p.label, item: new URL(p.href, b).href })) }] : []),
+  ...(faq?.length ? [{ '@type': 'FAQPage', '@id': `${url}#faq`, mainEntity: faq.map((q) => ({ '@type': 'Question', name: q.f, acceptedAnswer: { '@type': 'Answer', text: q.a } })) }] : []),
+  ...schema,
+];
+const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
+const istAktiv = (h: string) => aktuell === h || (h !== '/' && aktuell.startsWith(h));
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titel}</title>
+    <meta name="description" content={beschreibung} />
+    <meta name="robots" content={LIVE && !noindex ? 'index, follow, max-snippet:-1, max-image-preview:large' : 'noindex, follow'} />
+    <link rel="canonical" href={url} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={titel} />
+    <meta property="og:description" content={beschreibung} />
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={new URL(bild, b).href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="geo.region" content="DE-BY" />
+    <meta name="geo.placename" content={SITE.ort} />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href="/fonts/newsreader-display.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/figtree-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <script is:inline>try{if(localStorage.getItem('licht')==='gedaempft')document.documentElement.dataset.licht='gedaempft'}catch(e){}</script>
+    <script is:inline type="application/ld+json" set:html={jsonld} />
+  </head>
+  <body>
+    <a class="sprung" href="#inhalt">Zum Inhalt springen</a>
+    <div class="infozeile">
+      <div class="wrap">
+        <span>{SITE.strasse}, {SITE.plz} {SITE.ort}</span>
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        <a class="rechts" href={`tel:${SITE.telefonLink}`}>Telefon {SITE.telefonAnzeige}</a>
+      </div>
+    </div>
+    <header class="kopf">
+      <div class="wrap kopf-zeile">
+        <a class="marke" href="/" aria-label="Markus Schauer, Schwindeltherapie: zur Startseite">
+          <Logo />
+          <span><b>Markus Schauer</b><i>Schwindeltherapie</i></span>
+        </a>
+        <nav class="nav-breit" aria-label="Hauptnavigation">
+          {NAV.map((n) => <a href={n.href} aria-current={istAktiv(n.href) ? 'page' : undefined}>{n.label}</a>)}
+        </nav>
+        <a class="knopf kopf-tel" href="/kontakt/">Termin vereinbaren</a>
+        <details class="nav-schmal">
+          <summary>Menü</summary>
+          <nav aria-label="Mobile Navigation">
+            {NAV.map((n) => <a href={n.href} aria-current={istAktiv(n.href) ? 'page' : undefined}>{n.label}</a>)}
+            <a href="/emdr/">EMDR</a>
+            <a href="/aktuelles/">Aktuelles</a>
+          </nav>
+        </details>
+      </div>
+    </header>
+    <main id="inhalt">
+      <slot />
+    </main>
+    <footer class="fuss">
+      <div class="wrap fuss-grid">
+        <div class="fuss-marke">
+          <Logo />
+          <strong>{SITE.person}</strong>
+          <p>Schwindeltherapie<br />{SITE.strasse}, {SITE.plz} {SITE.ort}<br /><a href={`tel:${SITE.telefonLink}`}>{SITE.telefonAnzeige}</a><br /><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+        </div>
+        <nav aria-label="Schwindelerkrankungen">
+          <strong>Schwindelerkrankungen</strong>
+          <ul>{ERKRANKUNGEN.map((e) => <li><a href={`/schwindelerkrankungen/${e.slug}/`}>{e.name}</a></li>)}<li><a href="/schwindelerkrankungen/seltene-schwindelformen/">Seltene Schwindelformen</a></li></ul>
+        </nav>
+        <nav aria-label="Praxis">
+          <strong>Praxis</strong>
+          <ul>
+            {NAV.slice(1).map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+            <li><a href="/emdr/">EMDR bei Schwindel</a></li>
+            <li><a href="/aktuelles/">Aktuelles</a></li>
+            <li><a href="/links/">Links</a></li>
+          </ul>
+        </nav>
+        <div class="fuss-ruhe">
+          <strong>Ruhig gestaltet</strong>
+          <p>Bewegte Bilder können Schwindel verstärken. Deshalb bewegt sich auf dieser Seite nichts von selbst.</p>
+          <button type="button" class="licht" aria-pressed="false">Gedämpftes Licht</button>
+        </div>
+      </div>
+      <div class="wrap fuss-ende">
+        <p>Diese Website kann keinen Arzt ersetzen. Die Informationen dienen nicht der Diagnose und sind keine Empfehlung einer Therapie.</p>
+        <p class="fuss-recht"><a href="/impressum/">Impressum</a> <a href="/datenschutz/">Datenschutz</a> <a href={SITE.linkedin} rel="noopener me">LinkedIn</a> <a href={SITE.xing} rel="noopener me">XING</a> <a href={SITE.facebook} rel="noopener me">Facebook</a></p>
+      </div>
+    </footer>
+    <div class="handyleiste" aria-label="Schnellkontakt">
+      <a class="knopf" href={`tel:${SITE.telefonLink}`}>Anrufen</a>
+      <a class="knopf rand" href={`mailto:${SITE.email}`}>E-Mail</a>
+    </div>
+    <script is:inline>
+      (function(){var r=document.documentElement,b=document.querySelector('.licht');function z(){b.setAttribute('aria-pressed',r.dataset.licht==='gedaempft')}z();
+      b.addEventListener('click',function(){if(r.dataset.licht==='gedaempft')delete r.dataset.licht;else r.dataset.licht='gedaempft';try{localStorage.setItem('licht',r.dataset.licht||'')}catch(e){}z()});
+      var m=document.querySelector('.nav-schmal');document.addEventListener('click',function(e){if(m.open&&!m.contains(e.target))m.open=false});document.addEventListener('keydown',function(e){if(e.key==='Escape')m.open=false})})();
+    </script>
+  </body>
+</html>

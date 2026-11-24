@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import SeitenKopf from '../../components/SeitenKopf.astro';
+import Autor from '../../components/Autor.astro';
+import Kontaktband from '../../components/Kontaktband.astro';
+import { SITE } from '../../data/site';
+import { SELTENE, SELTENE_SLUG } from '../../data/erkrankungen';
+const href = `/schwindelerkrankungen/${SELTENE_SLUG}/`;
+const pfad = [{ href: '/schwindelerkrankungen/', label: 'Schwindelerkrankungen' }, { href, label: 'Seltene Schwindelformen' }];
+const schema = SELTENE.map((s) => ({ '@type': 'MedicalCondition', '@id': `${SITE.url}${href}#${s.id}`, name: s.name, description: s.p[0] }));
+---
+<Base titel="Seltene Schwindelformen: Paroxysmie, Fistel, Dehiszenz" beschreibung="Vestibularisparoxysmie, Perilymphfistel, Bogengangsdehiszenz und Kinetose: Anzeichen und Ursachen seltenerer Schwindelformen, erklärt von Markus Schauer." pfad={pfad} schema={schema} seitentyp="MedicalWebPage">
+  <SeitenKopf titel="Seltene Schwindelformen" antwort="Zu den selteneren Schwindelformen gehören Vestibularisparoxysmie, Perilymphfistel und Bogengangsdehiszenz. Sie zeigen sich oft durch Dreh- oder Schwankschwindel zusammen mit Tinnitus oder Hörproblemen und müssen von häufigeren Formen abgegrenzt werden." bild="ohr-bogen" pfad={pfad} />
+  <div class="wrap inhalt-grid">
+    <article class="lauf">
+      {SELTENE.map((s) => <section id={s.id}><h2>{s.name}</h2>{s.p.map((t) => <p>{t}</p>)}</section>)}
+      <Autor />
+    </article>
+    <nav class="seite blick" aria-label="Auf dieser Seite">
+      <h2>Auf dieser Seite</h2>
+      <ul class="punkte">{SELTENE.map((s) => <li><a href={`#${s.id}`}>{s.name}</a></li>)}</ul>
+    </nav>
+  </div>
+  <Kontaktband />
+</Base>

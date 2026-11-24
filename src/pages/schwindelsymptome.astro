@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import SeitenKopf from '../components/SeitenKopf.astro';
+import Notfall from '../components/Notfall.astro';
+import Faq from '../components/Faq.astro';
+import Kontaktband from '../components/Kontaktband.astro';
+import Bild from '../components/Bild.astro';
+const pfad = [{ href: '/schwindelsymptome/', label: 'Schwindelsymptome' }];
+const formen: [string, string, string][] = [
+  ['dreh', 'Drehschwindel', 'Wie Karussellfahren.'],
+  ['schwank', 'Schwankschwindel', 'Das Gefühl, dass der Boden schwankt, wie auf einem Boot.'],
+  ['benommen', 'Benommenheitsschwindel', 'Ein schwer zu beschreibendes Schwindelgefühl.'],
+  ['lift', 'Liftschwindel', 'Wie in einem Aufzug hoch oder runter gezogen zu werden.'],
+  ['doppel', 'Schwindelig', 'Ein diffuses Gefühl.'],
+];
+const gruppen: [string, string[]][] = [
+  ['Wann tritt der Schwindel auf?', ['Beim Gehen', 'In Ruhe oder bei Belastung', 'Beim Liegen', 'In der Freizeit', 'Beim Autofahren']],
+  ['Wie lange dauert er?', ['Sekunden', 'Minuten', 'Stunden', 'Tage', 'Dauerhaft oder wiederkehrend', 'Als Schwindelanfall', 'Jahreszeitabhängig']],
+  ['Was löst ihn aus?', ['Körperbewegungen wie Bücken oder Drehen', 'Aufstehen oder Liegen', 'Stress', 'Halswirbelsäule', 'Husten, Niesen, Pressen', 'Alkohol, Nahrungsmittel', 'Freie Plätze, Menschenmengen', 'Sport', 'Medikamente']],
+  ['Was begleitet ihn?', ['Übelkeit, Erbrechen', 'Gangstörungen, Fallneigung', 'Hörstörung, Tinnitus', 'Druck im Innenohr', 'Oszillopsien, Lichtscheu', 'Kopf- und Nackenschmerzen', 'Schlafstörungen, Angst', 'Pulserhöhung, Schwitzen']],
+];
+const faq = [
+  { f: 'Was ist der Unterschied zwischen Drehschwindel und Schwankschwindel?', a: 'Drehschwindel fühlt sich an wie Karussellfahren. Beim Schwankschwindel entsteht das Gefühl, dass der Boden unter einem schwankt, wie auf einem Boot.' },
+  { f: 'Welche Arten von Schwindel gibt es?', a: 'Man unterscheidet Drehschwindel, Schwankschwindel, Benommenheitsschwindel, Liftschwindel und ein diffuses Schwindelgefühl.' },
+  { f: 'Wann ist Schwindel gefährlich?', a: 'Wenn Sprachstörungen, Schluckstörungen, Lähmungen, Doppelbilder, Sensibilitätsstörungen oder Bewusstseinsstörungen hinzukommen. Das kann auf eine Notfallsituation hinweisen. Notruf: 112.' },
+];
+---
+<Base titel="Schwindelsymptome: Drehschwindel, Schwankschwindel, Benommenheit" beschreibung="Drehschwindel, Schwankschwindel, Benommenheit oder Liftschwindel? Schwindelsymptome nach Form, Dauer, Auslöser und Begleitsymptomen richtig einordnen." pfad={pfad} seitentyp="MedicalWebPage" faq={faq}>
+  <SeitenKopf titel="Schwindelsymptome richtig einordnen" antwort="Schwindel lässt sich über vier Fragen einordnen: Wie fühlt er sich an, wann tritt er auf, wie lange dauert er und was begleitet ihn? Die Antworten geben wichtige Hinweise auf die Ursache." bild="sicht-schwank" pfad={pfad} />
+  <div class="wrap voll">
+    <section>
+      <h2 style="margin-bottom:30px">Welche Schwindelformen gibt es?</h2>
+      <div class="karten fuenf">{formen.map(([g, n, t]) => <article class="karte"><Bild name={`sicht-${g}`} inhalt sizes="(min-width: 1160px) 30vw, 92vw" /><div class="karte-text"><h3>{n}</h3><p>{t}</p></div></article>)}</div>
+      <p class="hinweis" style="margin-top:18px">Nachgestellte Ansichten zur Veranschaulichung.</p>
+    </section>
+    <div class="merkmale">{gruppen.map(([h, l]) => <section class="merkmal"><h2>{h}</h2><ul class="punkte">{l.map((t) => <li>{t}</li>)}</ul></section>)}</div>
+    <Notfall />
+    <p><a class="mehr" href="/schwindelerkrankungen/">Welche Erkrankungen dahinterstecken können</a></p>
+  </div>
+  <Faq fragen={faq} titel="Fragen zu Schwindelsymptomen" />
+  <Kontaktband />
+</Base>

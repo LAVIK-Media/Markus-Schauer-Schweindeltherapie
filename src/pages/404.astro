@@ -1,0 +1,10 @@
+---
+import Base from '../layouts/Base.astro';
+import SeitenKopf from '../components/SeitenKopf.astro';
+import { NAV } from '../data/site';
+---
+<Base titel="Seite nicht gefunden" beschreibung="Diese Seite gibt es nicht mehr." noindex>
+  <SeitenKopf titel="Diese Seite gibt es nicht mehr." antwort="Die Website wurde neu aufgebaut. Hier geht es weiter:" bild="sicht-doppel">
+    <p class="reihe" style="margin-top:28px"><a class="knopf" href="/">Startseite</a>{NAV.map((n) => <a class="knopf rand" href={n.href}>{n.label}</a>)}</p>
+  </SeitenKopf>
+</Base>

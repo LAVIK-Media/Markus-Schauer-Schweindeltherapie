@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import SeitenKopf from '../components/SeitenKopf.astro';
+import { SITE } from '../data/site';
+const pfad = [{ href: '/datenschutz/', label: 'Datenschutz' }];
+---
+<Base titel="Datenschutz | Schwindeltherapie Markus Schauer" beschreibung="Datenschutzerklärung der Praxis für Schwindeltherapie Markus Schauer." pfad={pfad} noindex>
+  <SeitenKopf titel="Datenschutz" antwort="Diese Website setzt keine Cookies, verwendet keine Analyse- oder Werbedienste und lädt keine Inhalte von Dritten nach." bild="tal" pfad={pfad} />
+  <div class="wrap"><div class="recht">
+    <section><h2>Verantwortlicher</h2><p>Markus Schauer, Wasenstein 8a, 83661 Lenggries<br />Telefon: {SITE.telefonAnzeige}, E-Mail: {SITE.email}</p></section>
+    <section><h2>Aufruf der Website</h2><p>Beim Aufruf verarbeitet der Hosting-Anbieter technisch notwendige Daten: IP-Adresse, Datum und Uhrzeit, aufgerufene Seite, übertragene Datenmenge, Browsertyp, Betriebssystem und die zuvor besuchte Seite. Das dient der sicheren und stabilen Bereitstellung. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. [Hosting-Anbieter, Serverstandort und Speicherdauer werden vor dem Livegang ergänzt.]</p></section>
+    <section><h2>Kontaktaufnahme</h2><p>Wenn Sie anrufen oder eine E-Mail schreiben, verarbeite ich Ihre Angaben, um Ihre Anfrage zu beantworten und einen Termin zu vereinbaren. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, bei Gesundheitsangaben Art. 9 Abs. 2 lit. h DSGVO. Bitte beachten Sie, dass unverschlüsselte E-Mails auf dem Transportweg mitgelesen werden können.</p><p>Das Formular auf der Kontaktseite überträgt keine Daten an diese Website. Es öffnet Ihr eigenes E-Mail-Programm mit der vorbereiteten Nachricht.</p></section>
+    <section><h2>Einstellung „Gedämpftes Licht“</h2><p>Wenn Sie die gedämpfte Ansicht einschalten, merkt sich Ihr Browser diese Wahl lokal auf Ihrem Gerät. Es werden keine Daten übertragen. Rechtsgrundlage ist § 25 Abs. 2 Nr. 2 TDDDG.</p></section>
+    <section><h2>Links zu anderen Seiten</h2><p>Die Schaltfläche „Route planen“ führt zu Google Maps, weitere Links zu LinkedIn, XING, Facebook und anderen Anbietern. Erst beim Anklicken werden Daten an diese Anbieter übertragen.</p></section>
+    <section><h2>Ihre Rechte</h2><p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch. Außerdem können Sie sich bei einer Aufsichtsbehörde beschweren, in Bayern beim Bayerischen Landesamt für Datenschutzaufsicht, Promenade 18, 91522 Ansbach.</p></section>
+  </div></div>
+</Base>

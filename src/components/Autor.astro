@@ -1,0 +1,8 @@
+---
+import { SITE } from '../data/site';
+import Bild from './Bild.astro';
+---
+<aside class="autor" aria-label="Über den Verfasser">
+  <div class="autor-bild"><Bild name="portrait" sizes="90px" /></div>
+  <p><strong>Text: {SITE.person}</strong><br />Physiotherapeut seit 1996, Heilpraktiker seit 2003. Behandelt in Bad Tölz ausschließlich Patienten mit Schwindel. <a href="/ueber-mich/">Ausbildung und Werdegang</a></p>
+</aside>

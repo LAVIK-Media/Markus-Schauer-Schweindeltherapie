@@ -1,0 +1,11 @@
+node_modules
+dist
+.astro
+.DS_Store
+.claude
+
+# Intern, nicht ins öffentliche Repository
+docs
+archiv-alte-seite
+archiv-entwurf-1
+archiv-entwurf-2

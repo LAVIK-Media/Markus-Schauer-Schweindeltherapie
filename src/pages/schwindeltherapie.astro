@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import SeitenKopf from '../components/SeitenKopf.astro';
+import Faq from '../components/Faq.astro';
+import Bild from '../components/Bild.astro';
+import Autor from '../components/Autor.astro';
+import Kontaktband from '../components/Kontaktband.astro';
+import { THERAPIEN } from '../data/site';
+const pfad = [{ href: '/schwindeltherapie/', label: 'Schwindeltherapie' }];
+const thBild: Record<string, string> = { gleichgewicht: 'ohr-bogen', wirbelsaeule: 'praxis-hws', nervensystem: 'praxis-emdr', naturheilkunde: 'wald' };
+const faq = [
+  { f: 'Welche Therapie hilft gegen Schwindel?', a: 'Das hängt von der Ursache ab. Bei Lagerungsschwindel helfen gezielte Lagerungsmanöver, bei bilateraler Vestibulopathie ist ein spezielles Gleichgewichtstraining notwendig, bei PPPD kombiniere ich spezialisierte Physiotherapie mit verhaltenstherapeutischer Begleitung.' },
+  { f: 'Was ist vestibuläre Rehabilitation?', a: 'Ein gezieltes Training für Gleichgewicht, Augen und Koordination. Dazu gehören Blickstabilisationsübungen, Vestibularstabilisation und propriozeptives Gleichgewichtstraining.' },
+  { f: 'Welche naturheilkundlichen Verfahren kommen zum Einsatz?', a: 'Ohrakupunktur, Pflanzenheilkunde, Homöopathie, Fußreflexzonentherapie sowie ausgewählte Vitamine und Mineralien, jeweils ergänzend zur Schwindeltherapie.' },
+];
+---
+<Base titel="Schwindeltherapie: Verfahren und Übungen | Praxis Bad Tölz" beschreibung="Schwindeltherapie bei Markus Schauer in Bad Tölz: Lagerungsmanöver, Blickstabilisation, Gleichgewichtstraining, HWS-Behandlung, EMDR und Naturheilkunde." pfad={pfad} seitentyp="MedicalWebPage" faq={faq}>
+  <SeitenKopf titel="Schwindeltherapie, abgestimmt auf die Ursache" antwort="Nach der Diagnose ist eine gezielte Therapie Ihres Schwindels möglich. Ich nehme als Fundament die Schulmedizin und die Forschung zu den neuesten Schwindeltherapien und kombiniere dies mit dem breiten Spektrum der Naturheilkunde." bild="praxis-hws" pfad={pfad} />
+  <div class="wrap voll">
+    <div class="karten vier">{THERAPIEN.map((g) => <section class="karte" id={g.id}><Bild name={thBild[g.id]} inhalt sizes="(min-width: 1160px) 22vw, (min-width: 680px) 45vw, 92vw" /><div class="karte-text"><h2>{g.t}</h2><ul>{g.items.map((t) => <li>{t === 'EMDR' ? <a href="/emdr/">EMDR bei Schwindel</a> : t}</li>)}</ul></div></section>)}</div>
+    <div class="merkmale">
+      <section class="merkmal"><h2>Beratung zu Medikamenten</h2><p>Medikamente können Schwindel auslösen oder verstärken. Zur Therapie gehört deshalb auch die <a href="/schwindelerkrankungen/schwindel-durch-medikamente/">Medikamentenberatung</a>.</p></section>
+      <section class="merkmal"><h2>Behandlungsplan und Bericht</h2><p>Sie erhalten einen individuellen Behandlungsplan, bei Bedarf mit Rezepten und einem Übungsprogramm. Auf Wunsch erstelle ich einen Behandlungsbericht für Ihren Hausarzt, HNO-Arzt oder Neurologen.</p></section>
+    </div>
+    <div class="lauf"><Autor /></div>
+  </div>
+  <Faq fragen={faq} titel="Fragen zur Schwindeltherapie" />
+  <Kontaktband />
+</Base>

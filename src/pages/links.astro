@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import SeitenKopf from '../components/SeitenKopf.astro';
+const pfad = [{ href: '/links/', label: 'Links' }];
+const links: [string, [string, string][]][] = [
+  ['Ärzte in Bad Tölz', [['Dr. Ilg, Neurologin', 'https://www.neurologie-bad-toelz.de/'], ['Dr. Manfred Schneider, Praxis am Kurpark', 'https://www.kirinus.de/praxis-am-kurpark']]],
+  ['Kolleginnen', [['Petra Walk, Schwindeltherapeutin in Wien', 'https://petrawalk.at/'], ['Maike Seehausen, Schwindeltherapeutin in Konstanz', 'https://physio-konstanz.de/']]],
+  ['Verfahren', [['EMDR Ausbildungszentrum', 'https://emdr-ausbildungszentrum.de/'], ['Fußreflexzonentherapie', 'https://www.fussreflex.de/'], ['Heilpflanzenschule Calendula', 'https://www.heilpflanzenschule-calendula.de/'], ['Dr. Loges, Naturheilkunde', 'https://www.loges.de/']]],
+  ['Wissen', [['Schwindel bei Wikipedia', 'https://de.wikipedia.org/wiki/Schwindel'], ['Schwindel durch die HWS, Schwindelambulanz Hadamar', 'https://www.schwindelambulanz-hadamar.de/schwindel-durch-hws-ursachen-erkennen-und-erfolgreich-behandeln'], ['Keltican forte, Nervenregeneration', 'https://www.keltican-forte.de/']]],
+];
+---
+<Base titel="Links zu Schwindel, Neurologie und Therapie" beschreibung="Ausgewählte Links zu Neurologie, Schwindel, EMDR und Naturheilkunde." pfad={pfad}>
+  <SeitenKopf titel="Interessante Links" bild="tal" pfad={pfad} />
+  <div class="wrap voll">
+    <div class="merkmale">{links.map(([h, l]) => <section class="merkmal"><h2>{h}</h2><ul class="punkte">{l.map(([t, u]) => <li><a href={u} rel="noopener">{t}</a></li>)}</ul></section>)}</div>
+    <p>Buchempfehlung: <cite>Vertigo. Leitsymptom Schwindel</cite>, Michael Strupp u. a.</p>
+    <p class="hinweis">Auf die Gestaltung und die Inhalte der verlinkten Seiten habe ich keinen Einfluss. Für sie sind ausschließlich deren Betreiber verantwortlich.</p>
+  </div>
+</Base>

@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import SeitenKopf from '../components/SeitenKopf.astro';
+import Faq from '../components/Faq.astro';
+import Kontaktband from '../components/Kontaktband.astro';
+const pfad = [{ href: '/kosten/', label: 'Kosten' }];
+const faq = [
+  { f: 'Zahlt die private Krankenversicherung die Schwindeltherapie?', a: 'Die Rechnung wird nach dem Gebührenverzeichnis für Heilpraktiker (GebüH) gestellt und kann bei der privaten Krankenversicherung oder einer Zusatzversicherung eingereicht werden. Ob und wie viel erstattet wird, hängt von Ihrem Tarif ab.' },
+  { f: 'Kann ich mit einem Rezept kommen?', a: 'Ja, mit einem von Ihrem Arzt ausgestellten Privatrezept für Physiotherapie.' },
+  { f: 'Kann ich die Behandlung selbst bezahlen?', a: 'Ja. Als Selbstzahler erhalten Sie eine Privatrechnung.' },
+];
+---
+<Base titel="Kosten der Schwindeltherapie: Privatkasse, Rezept, Selbstzahler" beschreibung="So wird die Schwindeltherapie bei Markus Schauer in Bad Tölz abgerechnet: Heilpraktikerrechnung, Privatrezept für Physiotherapie oder Selbstzahler." pfad={pfad} faq={faq}>
+  <SeitenKopf titel="Kosten und Abrechnung" antwort="Die Schwindeltherapie wird auf drei Wegen abgerechnet: als Heilpraktikerrechnung, über ein Privatrezept für Physiotherapie oder als Privatrechnung für Selbstzahler." bild="tal" pfad={pfad} />
+  <div class="wrap voll">
+    <div class="karten drei">
+      <section class="weg"><h2>Heilpraktikerrechnung</h2><p>Für privat Versicherte und Versicherte mit Zusatzversicherung. Die Abrechnung erfolgt nach dem Gebührenverzeichnis für Heilpraktiker (GebüH).</p></section>
+      <section class="weg"><h2>Physiotherapie</h2><p>Mit einem von Ihrem Arzt ausgestellten Privatrezept für Physiotherapie.</p></section>
+      <section class="weg"><h2>Selbstzahler</h2><p>Sie erhalten eine Privatrechnung.</p></section>
+    </div>
+  </div>
+  <Faq fragen={faq} titel="Fragen zu Kosten" />
+  <Kontaktband />
+</Base>

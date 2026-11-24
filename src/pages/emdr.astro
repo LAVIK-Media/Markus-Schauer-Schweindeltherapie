@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import SeitenKopf from '../components/SeitenKopf.astro';
+import Faq from '../components/Faq.astro';
+import Autor from '../components/Autor.astro';
+import Kontaktband from '../components/Kontaktband.astro';
+const pfad = [{ href: '/schwindeltherapie/', label: 'Schwindeltherapie' }, { href: '/emdr/', label: 'EMDR bei Schwindel' }];
+const faq = [
+  { f: 'Was bedeutet EMDR?', a: 'EMDR steht für Eye Movement Desensitization and Reprocessing. Übersetzt heißt das Desensibilisierung und Verarbeitung durch Augenbewegung. Entwickelt wurde die Methode von Dr. Francine Shapiro (USA) zur Behandlung von Traumafolgestörungen.' },
+  { f: 'Bei welchem Schwindel wird EMDR eingesetzt?', a: 'Vor allem bei Schwankschwindel, phobischem Schwankschwindel, funktionellem Schwindel (PPPD) und bei Schwindel in Kombination mit einem Burnout-Syndrom.' },
+  { f: 'Wird EMDR allein angewendet?', a: 'Nein. Ich wende eine Kombination aus bewährter Schwindeltherapie und EMDR an.' },
+];
+---
+<Base titel="EMDR bei Schwindel: Methode und Anwendung | Bad Tölz" beschreibung="EMDR bei Schwankschwindel, PPPD und Schwindel mit Burnout: wie die Methode funktioniert und wie Markus Schauer sie mit Schwindeltherapie kombiniert." pfad={pfad} seitentyp="MedicalWebPage" faq={faq}>
+  <SeitenKopf titel="EMDR bei Schwindel" antwort="EMDR steht für Eye Movement Desensitization and Reprocessing, also Desensibilisierung und Verarbeitung durch Augenbewegung. Bei Schwindel hilft die Methode, Belastungen zu verarbeiten, die den Schwindel aufrechterhalten." bild="praxis-emdr" pfad={pfad} />
+  <div class="wrap inhalt-grid">
+    <article class="lauf">
+      <section><h2>Woher kommt EMDR?</h2><p>Dr. Francine Shapiro (USA) entwickelte diese Therapieform zur Behandlung von Traumafolgestörungen. Ein Trauma kann vieles sein: ein schlimmes Erlebnis, Streit, berufliche Belastungen, Unfälle, lang bestehende Sorgen.</p></section>
+      <section><h2>Wie wirkt EMDR?</h2><p>EMDR hat Einfluss auf die neuronalen Bahnen im Gehirn. Die Verknüpfung der Gefühlsebene mit dem rationalen Verarbeitungssystem wird wiederhergestellt. Belastungen, die den Schwindel aufrechterhalten, werden verarbeitet und bewältigt. Für die Behandlung von Traumafolgestörungen ist die Wirksamkeit durch eine gute Studienlage belegt.</p></section>
+      <section><h2>Bei welchem Schwindel setze ich EMDR ein?</h2><ul class="punkte"><li>Schwankschwindel</li><li>Phobischer Schwankschwindel</li><li>Funktioneller Schwindel (<a href="/schwindelerkrankungen/pppd/">PPPD</a>)</li><li>Schwindel in Kombination mit Burnout-Syndrom</li></ul></section>
+      <section><h2>EMDR kombiniert mit Schwindeltherapie</h2><p>Bei diesen Erkrankungen wende ich eine Kombination aus bewährter Schwindeltherapie und EMDR an. Beide Verfahren laufen parallel.</p></section>
+      <Autor />
+    </article>
+    <aside class="seite blick" aria-label="Ausbildung"><h2>Meine Ausbildung</h2><dl><div><dt>EMDR-Coach und Therapeut</dt><dd>EMDR Ausbildungszentrum, Diplom-Psychologin Dr. Barbara Lerch</dd></div><div><dt>EMDR-Fachausbildung</dt><dd>EMDR-Institut München</dd></div></dl></aside>
+  </div>
+  <Faq fragen={faq} titel="Fragen zu EMDR" />
+  <Kontaktband />
+</Base>

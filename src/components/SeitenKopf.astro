@@ -1,0 +1,18 @@
+---
+import Bild from './Bild.astro';
+interface Props { titel: string; unter?: string; antwort?: string; bild?: string; pfad?: { href: string; label: string }[] }
+const { titel, unter, antwort, bild = '', pfad = [] } = Astro.props;
+const mitBild = bild && bild !== 'tal';
+---
+<header class="kopfband">
+  <div class:list={['wrap kopfband-grid', mitBild && 'bild']}>
+    <div>
+      <nav class="pfad" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li>{pfad.map((p, i) => <li>{i < pfad.length - 1 ? <a href={p.href}>{p.label}</a> : <span aria-current="page">{p.label}</span>}</li>)}</ol></nav>
+      <h1>{titel}</h1>
+      {unter && <p class="unter">{unter}</p>}
+      {antwort && <p class="kurzantwort">{antwort}</p>}
+      <slot />
+    </div>
+    {mitBild && <Bild name={bild} class={`kopfband-bild ${bild.startsWith('ohr') ? 'ohr' : ''}`} eager inhalt sizes="(min-width: 960px) 42vw, 92vw" />}
+  </div>
+</header>

@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import SeitenKopf from '../components/SeitenKopf.astro';
+import Kontaktband from '../components/Kontaktband.astro';
+const pfad = [{ href: '/aktuelles/', label: 'Aktuelles' }];
+---
+<Base titel="Aktuelles: Vorträge, Kurse und Neues zu PPPD" beschreibung="Vorträge, VHS-Kurse in Bad Tölz und neue Entwicklungen rund um Schwindel und PPPD von Markus Schauer." pfad={pfad}>
+  <SeitenKopf titel="Aktuelles zu Schwindel" bild="tal" pfad={pfad} />
+  <div class="wrap voll">
+    <div class="meldungen">
+      <article><p class="wann">Dezember 2026</p><h2>Vortrag: Schwindeltherapie in der Physiotherapie</h2><p>In der Asklepios Klinik.</p></article>
+      <article><p class="wann">Regelmäßig</p><h2>VHS-Kurs in Bad Tölz: Schwindel, was nun?</h2><p>Aktuelle Termine im Programm der <a href="https://isar-vhs.de/" rel="noopener">isar-vhs</a>.</p></article>
+      <article><p class="wann">PPPD</p><h2>Der funktionelle Schwindel hat einen neuen Namen</h2><p>Der funktionelle Schwindel heißt heute offiziell PPPD (persistierender postural-perzeptiver Schwindel), im Deutschen oft auch anhaltender lage- und bewegungsabhängiger Schwindel. Der Begriff fasst frühere Bezeichnungen wie phobischer Schwankschwindel oder somatoformer Schwindel zusammen.</p><p><a class="mehr" href="/schwindelerkrankungen/pppd/">Mehr zu PPPD</a></p></article>
+      <article><p class="wann">17. bis 18. Juli 2026</p><h2>Schwindelfortbildung: Vertigo-Fachtagung</h2><p>Fachtagung am <a href="https://www.lmu-klinikum.de/schwindelzentrum/" rel="noopener">Deutschen Schwindel- und Gleichgewichtszentrum, LMU Klinikum</a>.</p></article>
+    </div>
+  </div>
+  <Kontaktband />
+</Base>

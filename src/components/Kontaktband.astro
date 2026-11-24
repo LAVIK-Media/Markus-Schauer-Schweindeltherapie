@@ -1,0 +1,21 @@
+---
+import { SITE } from '../data/site';
+import Bild from './Bild.astro';
+interface Props { titel?: string }
+const { titel = 'Termin vereinbaren' } = Astro.props;
+---
+<section class="kontaktband" aria-labelledby="kb-titel">
+  <div class="wrap kontaktband-grid">
+    <div class="kontaktband-text">
+      <h2 id="kb-titel">{titel}</h2>
+      <p>Termine vereinbaren Sie telefonisch. Fragen zu Ihrem Schwindel oder zum Therapieangebot beantworte ich gerne auch per E-Mail.</p>
+      <dl class="kontaktdaten">
+        <div><dt>Telefon</dt><dd><a href={`tel:${SITE.telefonLink}`}>{SITE.telefonAnzeige}</a></dd></div>
+        <div><dt>E-Mail</dt><dd><a href={`mailto:${SITE.email}`}>{SITE.email}</a></dd></div>
+        <div><dt>Praxis</dt><dd><address>{SITE.person}, {SITE.strasse}, {SITE.plz} {SITE.ort}</address></dd></div>
+      </dl>
+      <div class="reihe"><a class="knopf" href={`tel:${SITE.telefonLink}`}>Anrufen</a><a class="knopf rand" href={SITE.route} rel="noopener">Route planen</a></div>
+    </div>
+    <Bild name="tal-hell" class="kontaktband-bild" sizes="(min-width: 960px) 48vw, 92vw" alt="Blick in den Isarwinkel" />
+  </div>
+</section>

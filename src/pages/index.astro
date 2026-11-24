@@ -1,0 +1,189 @@
+---
+import Base from '../layouts/Base.astro';
+import Bild from '../components/Bild.astro';
+import Pfeil from '../components/Pfeil.astro';
+import Faq from '../components/Faq.astro';
+import Kontaktband from '../components/Kontaktband.astro';
+import Notfall from '../components/Notfall.astro';
+import Karte from '../components/Karte.astro';
+import { SITE, ABLAUF, THERAPIEN, UMGEBUNG } from '../data/site';
+import { GEFUEHLE, finde } from '../data/erkrankungen';
+
+const faq = [
+  { f: 'Wo finde ich eine Schwindeltherapie in Bad Tölz?', a: `In der Praxis von Markus Schauer, ${SITE.strasse}, ${SITE.plz} ${SITE.ort}. Behandelt werden ausschließlich Patienten mit Schwindel. Termine gibt es telefonisch unter ${SITE.telefonAnzeige}.` },
+  { f: 'Welche Schwindelerkrankungen werden behandelt?', a: 'Unter anderem Lagerungsschwindel, PPPD (funktioneller Schwindel), HWS-Schwindel, Morbus Menière, vestibuläre Migräne, Neuritis vestibularis, bilaterale Vestibulopathie, Altersschwindel bei Polyneuropathie, Gleichgewichtsstörungen, Schwindel durch Medikamente, Schwindel nach neurologischen Erkrankungen und Schwindel unklarer Ursache.' },
+  { f: 'Welche Therapie hilft gegen Schwindel?', a: 'Das hängt von der Ursache ab. Deshalb steht am Anfang eine gründliche Diagnose. Danach kommen zum Beispiel Lagerungsmanöver, Blickstabilisationsübungen, Gleichgewichtstraining, Halswirbelsäulenbehandlung oder EMDR infrage, ergänzt durch Naturheilkunde.' },
+  { f: 'Was bringe ich zum ersten Termin mit?', a: 'Ihre bisherigen Untersuchungsergebnisse, zum Beispiel Blutwerte, CT-, MRT- oder Röntgenbefunde, und eine Liste Ihrer Medikamente. Beides besprechen wir im Anamnesegespräch.' },
+  { f: 'Wer übernimmt die Kosten?', a: 'Es gibt drei Wege: Abrechnung nach dem Gebührenverzeichnis für Heilpraktiker (GebüH) über die private Krankenversicherung oder eine Zusatzversicherung, ein Privatrezept für Physiotherapie von Ihrem Arzt oder eine Privatrechnung als Selbstzahler.' },
+  { f: 'Bekommt mein Arzt einen Bericht?', a: 'Auf Wunsch erstelle ich einen Behandlungsbericht für Ihren Hausarzt, HNO-Arzt oder Neurologen.' },
+];
+const kacheln: [string, string][] = [['lagerungsschwindel', 'gross-l'], ['pppd', 'gross-r'], ['hws-schwindel', 'drittel'], ['morbus-meniere', 'drittel'], ['vestibulaere-migraene', 'drittel'], ['neuritis-vestibularis', 'drittel'], ['bilaterale-vestibulopathie', 'drittel'], ['altersschwindel', 'drittel']];
+const kompakt = ['gleichgewichtsstoerung', 'zentraler-schwindel', 'schwindel-durch-medikamente', 'seltene-schwindelformen'];
+const organ = [
+  { id: 'steine', x: 42.5, y: 55.7, t: 'Die Ohrsteinchen', p: 'Otolithen haften normalerweise fest in den Otolithenorganen Utriculus und Sacculus. Lösen sie sich, wandern sie in die Bogengänge. Dann entsteht Lagerungsschwindel.', l: ['lagerungsschwindel'] },
+  { id: 'bogen', x: 12.5, y: 41.5, t: 'Die drei Bogengänge', p: 'Auf jeder Seite gibt es drei Bogengänge: posterior, horizontal und anterior. Deshalb müssen alle sechs untersucht werden. Fällt das Gleichgewichtsorgan auf beiden Seiten aus, spricht man von bilateraler Vestibulopathie.', l: ['lagerungsschwindel', 'bilaterale-vestibulopathie'] },
+  { id: 'nerv', x: 68, y: 44.3, t: 'Der Gleichgewichtsnerv', p: 'Eine Entzündung führt zur Neuritis vestibularis mit akutem Drehschwindel. Reizt ein Blutgefäß den Nerv, kann eine Vestibularisparoxysmie dahinterstecken.', l: ['neuritis-vestibularis', 'seltene-schwindelformen'] },
+  { id: 'schnecke', x: 69, y: 76, t: 'Die Hörschnecke', p: 'Steigt der Innendruck in den Kammern von Hörschnecke und Gleichgewichtsorgan, kommt es bei Morbus Menière zu Schwindelanfällen mit Ohrgeräuschen und Hörminderung.', l: ['morbus-meniere'] },
+];
+const thBild: Record<string, string> = { gleichgewicht: 'ohr-bogen', wirbelsaeule: 'praxis-hws', nervensystem: 'praxis-emdr', naturheilkunde: 'wald' };
+---
+<Base
+  titel="Schwindeltherapie Bad Tölz | Praxis Markus Schauer"
+  beschreibung="Schwindeltherapie in Bad Tölz: Markus Schauer, Physiotherapeut und Heilpraktiker, behandelt ausschließlich Schwindel. Lagerungsschwindel, PPPD, HWS-Schwindel u. a."
+  faq={faq}
+>
+  <section class="held">
+    <div class="wrap held-grid">
+      <div class="held-inhalt">
+        <h1>Schwindeltherapie in Bad Tölz</h1>
+        <p>In meiner Praxis behandle ich ausschließlich Patientinnen und Patienten mit Schwindel. Als Physiotherapeut und Heilpraktiker verbinde ich das Fundament der Schulmedizin mit den Methoden der Naturheilkunde.</p>
+        <div class="held-tun">
+          <a class="knopf" href="/kontakt/">Termin vereinbaren</a>
+          <a class="knopf rand" href="#schwindel">Welchen Schwindel habe ich?</a>
+        </div>
+      </div>
+      <figure class="portrait">
+        <Bild name="portrait" eager sizes="(min-width: 940px) 400px, 92vw" alt="Markus Schauer, Physiotherapeut und Heilpraktiker in Bad Tölz" />
+        <figcaption><b>Markus Schauer</b>Physiotherapeut und Heilpraktiker</figcaption>
+      </figure>
+      <ul class="nachweise">
+        <li><b>Physiotherapeut seit 1996</b><br /><span>Fachdiplom</span></li>
+        <li><b>Heilpraktiker seit 2003</b><br /><span>Über 20 Jahre Erfahrung mit Schwindel</span></li>
+        <li><b>Schwindel- und Vestibulartherapeut</b><br /><span>Ausbildung bei Silvy Kellerer (LMU) und Prof. Dr. Jahn (Bad Aibling)</span></li>
+        <li><b>Dozent seit 2017</b><br /><span>Schwindelfortbildungen für Physiotherapeuten und Heilpraktiker</span></li>
+      </ul>
+    </div>
+    <div class="held-tal"><Bild name="tal-hell" sizes="100vw" alt="Blick in den Isarwinkel bei Bad Tölz" /></div>
+  </section>
+
+  <section class="sicht" id="schwindel" aria-labelledby="sicht-titel">
+    <div class="wrap">
+      <header class="kopfzeile zwei">
+        <h2 id="sicht-titel">So sieht die Welt aus, wenn sie nicht stillsteht.</h2>
+        <p class="vorspann">Vier Schilderungen meiner Patienten. Wählen Sie aus, was Ihrem Schwindel am nächsten kommt.</p>
+      </header>
+      <fieldset>
+        <legend class="sr">Schwindelgefühl auswählen</legend>
+        <div class="buehne">
+          {GEFUEHLE.map((g) => <Bild name={`sicht-${g.id}`} class={`b-${g.id}`} inhalt sizes="(min-width: 1440px) 1290px, 92vw" />)}
+          <div class="wahl">
+            {GEFUEHLE.map((g, i) => <label><input type="radio" name="gefuehl" id={`g-${g.id}`} checked={i === 0} />{g.label}</label>)}
+          </div>
+          {GEFUEHLE.map((g) => (
+            <div class="stimme" id={`f-${g.id}`}>
+              <blockquote>„{g.zitat}“</blockquote>
+              <div class="passt"><span>Dahinter kann stecken:</span>{g.links.map((s) => { const l = finde(s); return <a class="chip" href={l.href}>{l.name}</a>; })}</div>
+            </div>
+          ))}
+        </div>
+      </fieldset>
+      <p class="hinweis">Nachgestellte Ansichten. Ähnliche Beschwerden können verschiedene Ursachen haben und ersetzen keine Untersuchung. <a href="/schwindelsymptome/">Alle Symptome im Überblick</a></p>
+    </div>
+  </section>
+
+  <section class="formen-kacheln" aria-labelledby="formen-titel">
+    <div class="wrap">
+      <header class="kopfzeile zwei">
+        <h2 id="formen-titel">Schwindel ist komplex. Diese Formen behandle ich.</h2>
+        <p class="vorspann">Schwindel betrifft selten nur einen einzelnen medizinischen Bereich. Entscheidend ist die genaue Abgrenzung, auch bei Schwindel unklarer Ursache.</p>
+      </header>
+      <ul class="kacheln">
+        {kacheln.map(([s, k]) => { const l = finde(s); return <li class={k}><a class="kachel" href={l.href}><Bild name={l.bild} sizes={k === 'drittel' ? '(min-width: 1000px) 31vw, 92vw' : '(min-width: 1000px) 54vw, 92vw'} /><b>{l.name}</b><small>{l.teaser}</small><Pfeil /></a></li>; })}
+        {kompakt.map((s) => { const l = finde(s); return <li class="viertel"><a class="kompakt" href={l.href}><b>{l.name}</b><small>{l.teaser}</small><Pfeil /></a></li>; })}
+      </ul>
+    </div>
+  </section>
+
+  <section class="organ" aria-labelledby="organ-titel">
+    <div class="wrap">
+      <header class="kopfzeile zwei">
+        <h2 id="organ-titel">Hier entsteht Ihr Gleichgewicht.</h2>
+        <p class="vorspann">Das Gleichgewichtsorgan liegt im Innenohr. Tippen Sie auf eine Zahl und sehen Sie, welcher Schwindel dort seinen Ursprung hat.</p>
+      </header>
+      <fieldset class="organ-grid">
+        <legend class="sr">Teil des Gleichgewichtsorgans auswählen</legend>
+        <div class="organ-bild">
+          <Bild name="ohr" sizes="(min-width: 1000px) 56vw, 100vw" alt="Modell des Gleichgewichtsorgans: drei Bogengänge, Vorhof mit Ohrsteinchen, Hörschnecke und Gleichgewichtsnerv" />
+          {organ.map((o, i) => <label class="punkt" style={`left:${o.x}%;top:${o.y}%`}><input type="radio" name="organ" id={`o-${o.id}`} checked={i === 0} aria-label={o.t} />{i + 1}</label>)}
+        </div>
+        <div class="organ-felder">
+          {organ.map((o) => <div class="organ-text" id={`t-${o.id}`}><h3>{o.t}</h3><p>{o.p}</p><div class="reihe">{o.l.map((s) => { const l = finde(s); return <a class="chip" href={l.href}>{l.name}</a>; })}</div></div>)}
+        </div>
+      </fieldset>
+    </div>
+  </section>
+
+  <section class="ablauf" aria-labelledby="ablauf-titel">
+    <div class="wrap ablauf-grid">
+      <div class="ablauf-links">
+        <h2 id="ablauf-titel">Gründlichkeit ist die Basis.</h2>
+        <p class="vorspann">Ihre Erläuterungen und Symptome sind die Richtschnur und verdienen genaue Beachtung.</p>
+        <Bild name="praxis-ohr" class="ablauf-bild" sizes="(min-width: 960px) 42vw, 92vw" alt="Untersuchung des Ohrs mit dem Otoskop" />
+      </div>
+      <div>
+        <ol class="schritte">{ABLAUF.map((s) => <li><h3>{s.t}</h3><p>{s.d}</p></li>)}</ol>
+        <p style="margin-top:26px"><a class="mehr" href="/schwindeldiagnose/">Die Diagnose im Detail <Pfeil /></a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="therapie" aria-labelledby="therapie-titel">
+    <div class="wrap">
+      <header class="kopfzeile zwei">
+        <h2 id="therapie-titel">Schulmedizin als Fundament. Naturheilkunde dazu.</h2>
+        <p class="vorspann">Nach der Diagnose ist eine gezielte Therapie möglich. Ich stütze mich auf die Forschung zu den neuesten Schwindeltherapien und kombiniere sie mit dem Spektrum der Naturheilkunde.</p>
+      </header>
+      <div class="karten vier">
+        {THERAPIEN.map((g) => <article class="karte"><Bild name={thBild[g.id]} inhalt sizes="(min-width: 1160px) 22vw, (min-width: 680px) 45vw, 92vw" /><div class="karte-text"><h3>{g.t}</h3><ul>{g.items.map((t) => <li>{t === 'EMDR' ? <a href="/emdr/">EMDR</a> : t}</li>)}</ul></div></article>)}
+      </div>
+      <p style="margin-top:34px"><a class="mehr" href="/schwindeltherapie/">Mehr zur Schwindeltherapie <Pfeil /></a></p>
+    </div>
+  </section>
+
+  <section class="person" aria-labelledby="person-titel">
+    <div class="wrap person-grid">
+      <div class="person-text">
+        <h2 id="person-titel">Über 20 Jahre Erfahrung mit Schwindel</h2>
+        <p>Schon während meiner Ausbildung zum Physiotherapeuten habe ich mich 1993 intensiv mit dem Symptom Schwindel befasst. Nach der Ausbildung zum Heilpraktiker habe ich 2003 die ersten Schwindelpatienten behandelt. Schon zu Beginn wurde mir klar, dass Schwindel ein fachübergreifendes Symptom ist.</p>
+        <p>Erfahrung habe ich in Neurologie, Chirurgie, HNO, Innerer Medizin, Orthopädie, Psychosomatik und Naturheilkunde gesammelt. Als Referent tausche ich mich regelmäßig mit nationalen und internationalen Schwindelexperten aus.</p>
+        <a class="knopf" href="/ueber-mich/">Ausbildung und Werdegang</a>
+      </div>
+      <div class="person-bilder">
+        <Bild name="praxisraum" class="quer" sizes="(min-width: 960px) 46vw, 92vw" alt="Markus Schauer in der Praxis vor einer Ohrakupunktur-Tafel und einem Wirbelsäulenmodell" />
+        <ul class="stationen">
+          <li><b>1996</b><span>Physiotherapeut, Fachdiplom</span></li>
+          <li><b>2001</b><span>Zertifikat Manuelle Therapie (Kaltenborn-Evjenth)</span></li>
+          <li><b>2003</b><span>Heilpraktiker, erste Behandlungen von Schwindelpatienten</span></li>
+          <li><b>seit 2017</b><span>Dozent für Schwindelfortbildungen</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="kosten" aria-labelledby="kosten-titel">
+    <div class="wrap">
+      <header class="kopfzeile zwei"><h2 id="kosten-titel">Drei Wege der Abrechnung</h2><p class="vorspann">Klären Sie vor dem ersten Termin, welcher Weg für Sie passt. Bei Fragen rufen Sie mich an.</p></header>
+      <div class="karten drei">
+        <div class="weg"><h3>Heilpraktikerrechnung</h3><p>Private Krankenversicherung oder Zusatzversicherung. Abgerechnet wird nach dem Gebührenverzeichnis für Heilpraktiker (GebüH).</p></div>
+        <div class="weg"><h3>Privatrezept</h3><p>Ein von Ihrem Arzt ausgestelltes Privatrezept für Physiotherapie.</p></div>
+        <div class="weg"><h3>Selbstzahler</h3><p>Sie erhalten eine Privatrechnung.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="umgebung" aria-labelledby="umg-titel">
+    <div class="wrap">
+      <div class="umgebung-feld">
+        <div class="umgebung-text">
+          <h2 id="umg-titel">Aus dem Oberland und von weiter her</h2>
+          <p>Die Praxis liegt in der {SITE.strasse} in {SITE.ort}, im Isarwinkel südlich von München. Gut gelegen für {UMGEBUNG.slice(0, -1).join(', ')} und {UMGEBUNG.at(-1)}.</p>
+          <p>Sie wohnen in einem anderen Teil Deutschlands? Rufen Sie an oder schreiben Sie mir. So klären wir vor der Anreise, ob mein Therapieangebot zu Ihrem Schwindel passt.</p>
+        </div>
+        <Karte />
+      </div>
+    </div>
+  </section>
+
+  <Faq fragen={faq} titel="Häufige Fragen zur Schwindeltherapie"><Notfall /></Faq>
+  <Kontaktband />
+</Base>

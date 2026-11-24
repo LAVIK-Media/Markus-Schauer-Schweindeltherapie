@@ -1,0 +1,9 @@
+---
+import { NOTFALL } from '../data/site';
+interface Props { text?: string; titel?: string }
+const { text, titel = 'Wann Schwindel ein Notfall ist' } = Astro.props;
+---
+<aside class="notfall" aria-label="Wichtiger Hinweis">
+  <strong>{titel}</strong>
+  <p>{text ?? `${NOTFALL} zusammen mit Schwindel können auf eine Notfallsituation hinweisen. Lassen Sie das sofort ärztlich abklären. Notruf: 112.`}</p>
+</aside>

@@ -1,0 +1,21 @@
+---
+import Base from '../../layouts/Base.astro';
+import SeitenKopf from '../../components/SeitenKopf.astro';
+import Liste from '../../components/Liste.astro';
+import Kontaktband from '../../components/Kontaktband.astro';
+import { SITE } from '../../data/site';
+import { ERKRANKUNGEN, SELTENE } from '../../data/erkrankungen';
+const pfad = [{ href: '/schwindelerkrankungen/', label: 'Schwindelerkrankungen' }];
+const schema = [{ '@type': 'ItemList', name: 'Schwindelerkrankungen', itemListElement: ERKRANKUNGEN.map((e, i) => ({ '@type': 'ListItem', position: i + 1, name: e.name, url: `${SITE.url}/schwindelerkrankungen/${e.slug}/` })) }];
+---
+<Base titel="Schwindelerkrankungen im Überblick: Formen und Ursachen" beschreibung="Lagerungsschwindel, PPPD, HWS-Schwindel, Morbus Menière, vestibuläre Migräne und mehr: Schwindelerkrankungen verständlich erklärt von Markus Schauer, Bad Tölz." pfad={pfad} schema={schema} seitentyp="CollectionPage">
+  <SeitenKopf titel="Schwindelerkrankungen" antwort="Schwindel (Vertigo) ist ein Symptom mit vielen möglichen Ursachen: im Gleichgewichtsorgan, im Nervensystem, in der Halswirbelsäule oder durch Medikamente. Hier finden Sie die wichtigsten Formen mit Anzeichen, Ursachen und Behandlung." bild="ohr" pfad={pfad} />
+  <div class="wrap voll">
+    <Liste eintraege={ERKRANKUNGEN.map((e) => ({ href: `/schwindelerkrankungen/${e.slug}/`, name: e.name, teaser: e.teaser, bild: e.bild }))} />
+    <section>
+      <h2 style="margin-bottom:28px">Seltenere Schwindelformen</h2>
+      <Liste eintraege={SELTENE.map((e) => ({ href: `/schwindelerkrankungen/seltene-schwindelformen/#${e.id}`, name: e.name, teaser: e.teaser, bild: e.bild }))} />
+    </section>
+  </div>
+  <Kontaktband />
+</Base>

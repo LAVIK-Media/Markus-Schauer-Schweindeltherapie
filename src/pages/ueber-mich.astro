@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import SeitenKopf from '../components/SeitenKopf.astro';
+import Bild from '../components/Bild.astro';
+import Kontaktband from '../components/Kontaktband.astro';
+import { SITE } from '../data/site';
+const pfad = [{ href: '/ueber-mich/', label: 'Über mich' }];
+const zeit: [string, string][] = [
+  ['1993', 'Beginn der Beschäftigung mit dem Symptom Schwindel während der Ausbildung zum Physiotherapeuten'],
+  ['1995', 'Fußreflexzonentherapeut bei Hanne Marquardt'],
+  ['1996', 'Physiotherapeut, Fachdiplom'],
+  ['1996', 'Perfettitherapeut bei Prof. Perfetti in Schio'],
+  ['1998', 'Brüggertherapeut'],
+  ['2001', 'Manuelle Therapie (Kaltenborn-Evjenth) bei Franz van den Berg'],
+  ['2001', 'Manuelle Trainings- und Sporttherapie, Rückenschullehrer, Hemimassage'],
+  ['2002', 'Viszeraltherapeut Osteopathie bei Marc De Coster'],
+  ['2003', 'Heilpraktiker, erste Behandlungen von Schwindelpatienten'],
+  ['2003', 'Lymphdrainage'],
+  ['2004', 'Ohrakupunktur bei Franz Thews'],
+  ['2004', 'Dorntherapeut, Kursleiter für Progressive Muskelentspannung nach Jacobson'],
+  ['2007', 'Kopfschmerztherapeut'],
+  ['2011', 'Phytotherapeut (Pflanzenheilkunde) bei Dr. Katharina Vogelsang'],
+  ['seit 2017', 'Dozent für Schwindelfortbildungen: Heilpraktiker, Physiotherapeuten, VHS-Kurse'],
+];
+const spezial = ['Ausbildung zum Schwindel- und Vestibulartherapeuten bei Silvy Kellerer (LMU) und Prof. Dr. Jahn (Bad Aibling)', 'Vestibuläre Rehabilitation', 'Fachfortbildung Schwindeltherapie bei M. Wiemer', 'Seminare am Deutschen Schwindel- und Gleichgewichtszentrum', 'Vorträge von Prof. Dr. Strupp und Prof. Dr. Brandt (Großhadern)', 'Jährliche Fachtagung Vertigo', 'Fortbildung Schwindel im höheren Alter', 'EMDR-Coach und Therapeut, EMDR Ausbildungszentrum (Dr. Barbara Lerch)', 'EMDR-Fachausbildung, EMDR-Institut München', 'Heilpflanzenpädagoge, Massage nach Breuss'];
+---
+<Base titel="Markus Schauer: Schwindeltherapeut in Bad Tölz" beschreibung="Markus Schauer ist Physiotherapeut (seit 1996) und Heilpraktiker (seit 2003) in Bad Tölz und auf Schwindel spezialisiert. Ausbildung, Werdegang und Arbeitsweise." pfad={pfad} seitentyp="ProfilePage" bild="/bilder/og.jpg">
+  <SeitenKopf titel="Markus Schauer, Schwindeltherapeut" antwort="Markus Schauer ist Physiotherapeut (seit 1996) und Heilpraktiker (seit 2003) in Bad Tölz. In seiner Praxis behandelt er ausschließlich Patienten mit Schwindel. Seit 2017 gibt er sein Wissen als Dozent an Therapeuten weiter." bild="tal" pfad={pfad} />
+  <div class="wrap inhalt-grid">
+    <article class="lauf">
+      <section><h2>Wie ich zum Schwindel kam</h2><p>Schon während meiner Ausbildung zum Physiotherapeuten habe ich mich 1993 intensiv mit dem Symptom Schwindel befasst. Nach der Ausbildung zum Heilpraktiker habe ich 2003 meine ersten Schwindelpatienten behandelt. Schon zu Beginn wurde mir klar, dass Schwindel ein fachübergreifendes Symptom ist. Es erfordert das Wissen aus den unterschiedlichsten medizinischen Fachbereichen.</p><p>Erfahrung konnte ich in Neurologie, Chirurgie, HNO, Innerer Medizin, Orthopädie, Psychosomatik und Naturheilkunde sammeln. Meine Tätigkeit in der Akutmedizin, der Rehabilitation und der Behandlung von chronisch Kranken bietet eine gute Basis.</p></section>
+      <figure class="praxisbild"><Bild name="praxisraum" sizes="(min-width: 1000px) 720px, 92vw" alt="Markus Schauer in der Praxis vor einer Ohrakupunktur-Tafel und einem Wirbelsäulenmodell" /></figure>
+      <section><h2>Wie ich arbeite</h2><p>Ich nehme als Fundament die Schulmedizin und die Forschung zu den neuesten Schwindeltherapien und kombiniere dies mit dem breiten Therapiespektrum der Naturheilkunde. Als Referent für Schwindelfortbildungen tausche ich mich regelmäßig mit nationalen und internationalen Schwindelexperten aus.</p></section>
+      <section><h2>Spezialisierung auf Schwindel</h2><ul class="punkte">{spezial.map((s) => <li>{s}</li>)}</ul></section>
+      <section><h2>Werdegang</h2><ol class="zeit">{zeit.map(([j, t]) => <li><time>{j}</time><span>{t}</span></li>)}</ol></section>
+    </article>
+    <div class="seite">
+      <div class="portrait-feld"><Bild name="portrait" sizes="370px" alt="Portrait von Markus Schauer" /></div>
+      <section class="blick" aria-label="Kurzprofil"><dl><div><dt>Beruf</dt><dd>Physiotherapeut, Heilpraktiker</dd></div><div><dt>Schwerpunkt</dt><dd>Schwindel und Gleichgewicht</dd></div><div><dt>Praxis</dt><dd>{SITE.strasse}, {SITE.ort}</dd></div></dl><a class="knopf" href={`tel:${SITE.telefonLink}`}>{SITE.telefonAnzeige}</a></section>
+    </div>
+  </div>
+  <Kontaktband />
+</Base>

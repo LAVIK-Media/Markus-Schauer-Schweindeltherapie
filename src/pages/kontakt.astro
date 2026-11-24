@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import SeitenKopf from '../components/SeitenKopf.astro';
+import Karte from '../components/Karte.astro';
+import { SITE, UMGEBUNG } from '../data/site';
+const pfad = [{ href: '/kontakt/', label: 'Kontakt' }];
+---
+<Base titel="Kontakt und Anfahrt: Schwindeltherapie in Bad Tölz" beschreibung={`Termin bei Markus Schauer, Schwindeltherapie in Bad Tölz: Telefon ${SITE.telefonAnzeige}, ${SITE.strasse}, ${SITE.plz} ${SITE.ort}. Anfahrt und E-Mail.`} pfad={pfad} seitentyp="ContactPage">
+  <SeitenKopf titel="Kontakt" antwort="Termine vereinbaren Sie am einfachsten telefonisch. Fragen zu Ihrem Schwindel oder zum Therapieangebot beantworte ich per E-Mail oder Telefon." bild="tal" pfad={pfad} />
+  <div class="wrap kontakt-grid">
+    <div>
+      <dl class="kontakt-liste">
+        <div><dt>Telefon</dt><dd><a class="kontakt-gross" href={`tel:${SITE.telefonLink}`}>{SITE.telefonAnzeige}</a></dd></div>
+        <div><dt>E-Mail</dt><dd><a href={`mailto:${SITE.email}`}>{SITE.email}</a></dd></div>
+        <div><dt>Praxis</dt><dd><address>{SITE.person}<br />{SITE.strasse}<br />{SITE.plz} {SITE.ort}</address></dd></div>
+        <div><dt>Anfahrt</dt><dd>Im Isarwinkel südlich von München, gut gelegen für {UMGEBUNG.slice(0, 5).join(', ')}, {UMGEBUNG[6]} und das {UMGEBUNG[10]}.<br /><a class="knopf" style="margin-top:18px" href={SITE.route} rel="noopener">Route planen</a></dd></div>
+      </dl>
+    </div>
+    <form class="formular" id="anfrage" data-mail={SITE.email}>
+      <h2>Nachricht schreiben</h2>
+      <div class="zwei-felder">
+        <label>Name <input name="name" autocomplete="name" required maxlength="120" /></label>
+        <label>Telefon <input name="telefon" type="tel" autocomplete="tel" required maxlength="40" /></label>
+      </div>
+      <label>Wohnort <input name="ort" autocomplete="address-level2" maxlength="80" /></label>
+      <label>Ihre Frage <small>Zum Beispiel: Seit wann haben Sie den Schwindel und wie fühlt er sich an?</small><textarea name="text" rows="5" required maxlength="2500"></textarea></label>
+      <button class="knopf" type="submit">In E-Mail übernehmen</button>
+      <p class="hinweis">Es öffnet sich Ihr E-Mail-Programm mit der fertigen Nachricht. Diese Website speichert und überträgt dabei nichts.</p>
+    </form>
+  </div>
+  <div class="wrap" style="padding-bottom:var(--luft)"><div class="umgebung-feld"><div class="umgebung-text"><h2>Im Isarwinkel, südlich von München</h2><p>{SITE.strasse}, {SITE.plz} {SITE.ort}</p></div><Karte /></div></div>
+  <script is:inline>
+    (function(){var f=document.getElementById('anfrage');f.addEventListener('submit',function(e){e.preventDefault();var d=new FormData(f);
+    var t='Name: '+d.get('name')+'\nTelefon: '+d.get('telefon')+'\nWohnort: '+(d.get('ort')||'-')+'\n\n'+d.get('text');
+    location.href='mailto:'+f.dataset.mail+'?subject='+encodeURIComponent('Anfrage Schwindeltherapie: '+d.get('name'))+'&body='+encodeURIComponent(t)})})();
+  </script>
+</Base>
+<style>
+  .kontakt-grid { display: grid; gap: 44px; padding-block: clamp(56px, 6.4vw, 104px); }
+  @media (min-width: 960px) { .kontakt-grid { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr); gap: 80px; align-items: start; } }
+</style>

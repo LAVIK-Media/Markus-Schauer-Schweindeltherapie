@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import SeitenKopf from '../components/SeitenKopf.astro';
+import Faq from '../components/Faq.astro';
+import Autor from '../components/Autor.astro';
+import Kontaktband from '../components/Kontaktband.astro';
+import { ABLAUF } from '../data/site';
+const pfad = [{ href: '/schwindeldiagnose/', label: 'Schwindeldiagnose' }];
+const faq = [
+  { f: 'Wie wird die Ursache von Schwindel gefunden?', a: 'Durch ein ausführliches Gespräch über Art, Dauer, Auslöser und Begleitmerkmale, die Bewertung Ihrer bisherigen Befunde und eine gezielte Untersuchung von Gleichgewicht, Augen, Halswirbelsäule, Reflexen und Kreislauf.' },
+  { f: 'Was bringe ich zur Schwindeldiagnose mit?', a: 'Vorhandene Befunde wie Blutwerte, CT, MRT und Röntgen sowie eine Liste Ihrer Medikamente.' },
+  { f: 'Wird auch Schwindel unklarer Ursache untersucht?', a: 'Ja. Auch wenn bisher nichts gefunden wurde, bewerte ich Ihre Untersuchungen und bisherigen Therapien neu.' },
+];
+---
+<Base titel="Schwindeldiagnose in Bad Tölz: die Ursache finden" beschreibung="So läuft die Schwindeldiagnose bei Markus Schauer in Bad Tölz ab: Anamnese, Auswertung Ihrer Befunde, Gleichgewichtstest, Lagerungsmanöver und HWS-Untersuchung." pfad={pfad} seitentyp="MedicalWebPage" faq={faq}>
+  <SeitenKopf titel="Schwindeldiagnose: Gründlichkeit ist die Basis" antwort="Ihre Erläuterungen und Symptome sind die Richtschnur und verdienen genaue Beachtung. Am Anfang steht deshalb ein ausführliches Gespräch, danach folgen Inspektion und Untersuchung." bild="praxis-ohr" pfad={pfad} />
+  <div class="wrap inhalt-grid">
+    <article class="lauf">
+      <section><h2>Anamnese</h2><p>Aus dem Gespräch ergeben sich wichtige Hinweise. Die genaue Befragung über Art, Dauer, Auslöser und Begleitmerkmale gibt weitere Informationen.</p>
+        <ul class="punkte"><li>Wie erfolgreich waren Ihre bisherigen Therapien?</li><li>Hatten Sie schon einmal eine Schwindelerkrankung?</li><li>Welche Erkrankungen haben und hatten Sie?</li><li>Welche Medikamente nehmen Sie? Besprochen werden die üblichen Verdächtigen, aber auch seltene Wirkmechanismen.</li><li>Gab es einen Unfall? Welchen Sport und welchen Beruf üben Sie aus?</li><li>Welche Befunde liegen vor: Blutwerte, CT, MRT, Röntgen?</li><li>Wie ist Ihr Schlafplatz?</li></ul></section>
+      <section><h2>Inspektion</h2><ul class="punkte"><li>Kopfstellung und Wirbelsäulenhaltung</li><li>Ganganalyse: Gangstörung, Schwanken beim Gehen und Stehen</li><li>Tests in unterschiedlichen Situationen, zum Beispiel im Dunkeln</li><li>Gleichgewichtstestung und Lagerungsuntersuchung</li></ul></section>
+      <section><h2>Untersuchung</h2><ul class="punkte"><li>Augen und Gleichgewichtsorgan</li><li>Lagerungsmanöver und Gleichgewichtstestung</li><li>Halswirbelsäuleninstabilität und Atlasdiagnostik</li><li>Wirbelsäule, Muskelstatus und Reflexe</li><li>Vibrationstestung und Nervenstatus</li><li>Kreislauf</li></ul></section>
+      <section><h2>Ergänzend: Naturheilkunde</h2><ul class="punkte"><li>Diagnosepunkte von Ohrakupunktur und Fußreflexzonen</li><li>Osteopathische Untersuchung</li></ul></section>
+      <Autor />
+    </article>
+    <aside class="seite blick" aria-label="Ablauf">
+      <h2>Der Ablauf</h2>
+      <ol class="schritte klein">{ABLAUF.map((s) => <li><h3>{s.t}</h3></li>)}</ol>
+    </aside>
+  </div>
+  <Faq fragen={faq} titel="Fragen zur Schwindeldiagnose" />
+  <Kontaktband />
+</Base>
+<style>
+  .klein li { grid-template-columns: 38px minmax(0, 1fr); padding-block: 11px; align-items: center; }
+  .klein li::before { font-size: 1.7rem; grid-row: auto; }
+  .klein h3 { font-size: 1.05rem; }
+</style>

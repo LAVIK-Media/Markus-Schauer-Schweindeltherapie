@@ -1,0 +1,27 @@
+---
+interface Props { name: string; alt?: string; inhalt?: boolean; sizes?: string; class?: string; eager?: boolean }
+const ALT: Record<string, string> = {
+  'sicht-dreh': 'Nachgestellte Sicht bei Drehschwindel: die Berglandschaft verwirbelt', 'sicht-schwank': 'Nachgestellte Sicht bei Schwankschwindel: der Horizont wogt', 'sicht-lage': 'Nachgestellte Sicht bei Lagewechsel: der Horizont kippt', 'sicht-gang': 'Nachgestellte Sicht bei Unsicherheit im Dämmerlicht', 'sicht-doppel': 'Nachgestellte Sicht mit Doppelbildern', 'sicht-benommen': 'Nachgestellte Sicht bei Benommenheit: alles wirkt verschwommen', 'sicht-lift': 'Nachgestellte Sicht bei Liftschwindel: senkrecht verwischt',
+  ohr: 'Modell des Gleichgewichtsorgans', 'ohr-kristalle': 'Modell des Gleichgewichtsorgans mit Ohrsteinchen im Bogengang', 'ohr-schnecke': 'Modell der Hörschnecke mit Gleichgewichtsorgan', 'ohr-nerv': 'Modell des Gleichgewichtsnervs', 'ohr-bogen': 'Modell der Bogengänge im Innenohr',
+  'praxis-hws': 'Untersuchung der Halswirbelsäule', 'praxis-ohr': 'Untersuchung des Ohrs mit dem Otoskop', 'praxis-emdr': 'Patientin während der Behandlung', tal: 'Sonnenaufgang im Isarwinkel', wald: 'Wald und Wiesen im Morgennebel',
+};
+const { name, inhalt = false, alt = inhalt ? ALT[Astro.props.name] ?? '' : '', sizes = '100vw', class: cls = '', eager = false } = Astro.props;
+const T: [RegExp, number[], number, number][] = [
+  [/^sicht-/, [900, 1800], 1800, 1010],
+  [/^ohr$/, [900, 1800], 2560, 1960],
+  [/^ohr-/, [700, 1400], 1800, 1240],
+  [/^praxis-/, [700, 1100], 1100, 900],
+  [/^wald$/, [700, 1400], 1600, 904],
+  [/^tal$/, [900, 1600, 2400], 2600, 1463],
+  [/^tal-hell$/, [900, 1600, 2000], 2000, 1125],
+  [/^portrait$/, [480, 800, 1200], 1203, 1504],
+  [/^praxisraum$/, [600, 920], 920, 269],
+  [/^markus$/, [560, 900, 1400], 1420, 1354],
+];
+const [, ws, w, h] = T.find(([r]) => r.test(name))!;
+const set = (e: string) => ws.map((x) => `/bilder/${name}-${x}.${e} ${x}w`).join(', ');
+---
+<picture class={cls}>
+  <source type="image/avif" srcset={set('avif')} sizes={sizes} />
+  <img src={`/bilder/${name}-${ws.at(-1)}.webp`} srcset={set('webp')} sizes={sizes} width={w} height={h} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding={eager ? 'sync' : 'async'} fetchpriority={eager ? 'high' : undefined} />
+</picture>

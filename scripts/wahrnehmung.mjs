@@ -1,0 +1,19 @@
+// So sehen Patienten die Welt: vier verfremdete Fassungen des Panoramas
+import sharp from 'sharp';
+const [,, TAL] = process.argv, P = 'public/bilder/';
+const W = 1800, H = 1010;
+const src = await sharp(TAL).extract({ left: 200, top: 110, width: 1800, height: 1010 }).modulate({ brightness: 1.06, saturation: 1.05 }).removeAlpha().raw().toBuffer();
+const px = new Float32Array(3);
+function S(x, y) { x = x < 0 ? -x : x >= W - 1 ? 2 * (W - 1) - x - 0.001 : x; y = y < 0 ? -y : y >= H - 1 ? 2 * (H - 1) - y - 0.001 : y; x = Math.min(Math.max(x, 0), W - 1.001); y = Math.min(Math.max(y, 0), H - 1.001); const x0 = x | 0, y0 = y | 0, fx = x - x0, fy = y - y0, i = (y0 * W + x0) * 3; for (let k = 0; k < 3; k++) px[k] = (src[i + k] * (1 - fx) + src[i + 3 + k] * fx) * (1 - fy) + (src[i + W * 3 + k] * (1 - fx) + src[i + W * 3 + 3 + k] * fx) * fy; return px; }
+function render(f) { const o = Buffer.alloc(W * H * 3); for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const c = f(x, y), i = (y * W + x) * 3; o[i] = Math.min(255, c[0]); o[i + 1] = Math.min(255, c[1]); o[i + 2] = Math.min(255, c[2]); } return o; }
+const cx = W * 0.5, cy = H * 0.44, N = 34;
+const dreh = render((x, y) => { const dx = x - cx, dy = y - cy, r = Math.hypot(dx, dy), a = Math.atan2(dy, dx) + 0.5 * Math.exp(-r / 330), s = 0.2 * Math.min(1, r / 420) + 0.02; let R = 0, G = 0, B = 0, w = 0; for (let k = 0; k < N; k++) { const t = k / (N - 1) - 0.5, q = 1 - Math.abs(t) * 1.2, b = a + t * s, p = S(cx + Math.cos(b) * r, cy + Math.sin(b) * r); R += p[0] * q; G += p[1] * q; B += p[2] * q; w += q; } return [R / w, G / w, B / w]; });
+const schwank = render((x, y) => { const o = (ph, am) => am * Math.sin((x / W) * 6.6 + ph) + am * 0.35 * Math.sin((x / W) * 15 + ph * 2), p = S(x + 10 * Math.sin(y / 120), y + o(0.4, 44)).slice(), q = S(x + 34 + 10 * Math.sin(y / 120), y + o(1.5, 44) - 10).slice(), r = S(x - 26, y + o(-0.7, 44) + 8); return [0, 1, 2].map((k) => p[k] * 0.5 + q[k] * 0.28 + r[k] * 0.22); });
+const an = 0.2, lage = render((x, y) => { const dx = (x - cx) * 0.8, dy = (y - H * 0.5) * 0.8, r = Math.hypot(dx, dy), a = Math.atan2(dy, dx); let R = 0, G = 0, B = 0; const n = 18; for (let k = 0; k < n; k++) { const t = (k / (n - 1)) * 0.085 * Math.min(1, r / 380), b = a + an + t, p = S(cx + Math.cos(b) * r, H * 0.5 + Math.sin(b) * r); R += p[0]; G += p[1]; B += p[2]; } return [R / n, G / n, B / n]; });
+const gangV = render((x, y) => { const t = Math.max(0, (y - H * 0.42) / (H * 0.58)), b = 4 + t * 24; let R = 0, G = 0, B = 0, n = 0; for (let k = -3; k <= 3; k++) for (const s of [-1, 1]) { const p = S(x + s * b * 1.3 + k * 2.2, y + k * b * 0.42 + Math.sin(x / 95) * 12 * t); R += p[0]; G += p[1]; B += p[2]; n++; } const g = (R * 0.21 + G * 0.72 + B * 0.07) / n, v = 1 - 0.5 * Math.pow(Math.hypot((x - cx) / (W * 0.62), (y - H * 0.42) / (H * 0.75)), 2), d = 1.0 * Math.max(0.3, v); return [(R / n * 0.55 + g * 0.45) * d, (G / n * 0.55 + g * 0.45) * d, (B / n * 0.6 + g * 0.42) * d * 1.06]; });
+const doppel = render((x, y) => { const p = S(x - 46, y - 10).slice(), q = S(x + 46, y + 12).slice(); return [0, 1, 2].map((k) => p[k] * 0.54 + q[k] * 0.46); });
+const lift = render((x, y) => { let R = 0, G = 0, B = 0, w = 0; for (let k = 0; k < 40; k++) { const t = k / 39, q = 1 - t * 0.8, p = S(x, y + t * 150 - 40); R += p[0] * q; G += p[1] * q; B += p[2] * q; w += q; } return [R / w, G / w, B / w]; });
+const benommen = await sharp(src, { raw: { width: W, height: H, channels: 3 } }).blur(15).linear(0.74, 48).raw().toBuffer();
+const klar = src;
+for (const [n, b] of Object.entries({ klar, dreh, schwank, lage, gang: gangV, doppel, lift, benommen })) for (const w of [900, 1800]) { const s = sharp(b, { raw: { width: W, height: H, channels: 3 } }).resize(w); await s.clone().avif({ quality: 54 }).toFile(`${P}sicht-${n}-${w}.avif`); await s.webp({ quality: 74 }).toFile(`${P}sicht-${n}-${w}.webp`); }
+console.log('ok');

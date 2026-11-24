@@ -1,0 +1,55 @@
+---
+import Base from '../../layouts/Base.astro';
+import SeitenKopf from '../../components/SeitenKopf.astro';
+import Liste from '../../components/Liste.astro';
+import Faq from '../../components/Faq.astro';
+import Autor from '../../components/Autor.astro';
+import Notfall from '../../components/Notfall.astro';
+import Kontaktband from '../../components/Kontaktband.astro';
+import { SITE } from '../../data/site';
+import { ERKRANKUNGEN, finde, type Erkrankung } from '../../data/erkrankungen';
+
+export function getStaticPaths() {
+  return ERKRANKUNGEN.map((e) => ({ params: { slug: e.slug }, props: { e } }));
+}
+const { e } = Astro.props as { e: Erkrankung };
+const url = `${SITE.url}/schwindelerkrankungen/${e.slug}/`;
+const pfad = [{ href: '/schwindelerkrankungen/', label: 'Schwindelerkrankungen' }, { href: `/schwindelerkrankungen/${e.slug}/`, label: e.name }];
+const schema = [{
+  '@type': 'MedicalCondition', '@id': `${url}#erkrankung`, name: e.name, alternateName: [e.lang, ...e.alt], description: e.antwort, mainEntityOfPage: { '@id': `${url}#seite` },
+  signOrSymptom: e.symptome.map((name) => ({ '@type': 'MedicalSymptom', name })),
+  ...(e.therapien.length ? { possibleTreatment: e.therapien.map((name) => ({ '@type': 'MedicalTherapy', name })) } : {}),
+}];
+---
+<Base titel={e.titel} beschreibung={e.beschreibung} pfad={pfad} schema={schema} seitentyp="MedicalWebPage" faq={e.faq}>
+  <SeitenKopf titel={e.name} unter={e.lang} antwort={e.antwort} bild={e.bild} pfad={pfad} />
+  <div class="wrap inhalt-grid">
+    <article class="lauf">
+      {e.warnung && <Notfall text={e.warnung} titel="Wichtig" />}
+      {e.zitat && <figure><blockquote class="zitat">„{e.zitat}“</blockquote><figcaption>Schilderung aus der Praxis, als Beispiel für solche Beschwerden</figcaption></figure>}
+      {e.abschnitte.map((a) => (
+        <section>
+          <h2>{a.h}</h2>
+          {a.p?.map((t) => <p>{t}</p>)}
+          {a.ul && <ul class="punkte">{a.ul.map((t) => <li>{t}</li>)}</ul>}
+        </section>
+      ))}
+      <Autor />
+    </article>
+    <div class="seite">
+      <section class="blick" aria-label="Auf einen Blick">
+        <h2>Auf einen Blick</h2>
+        <dl>{e.fakten.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
+        <a class="knopf" href={`tel:${SITE.telefonLink}`}>{SITE.telefonAnzeige}</a>
+      </section>
+    </div>
+  </div>
+  <Faq fragen={e.faq} titel={`Fragen zu ${e.name}`} />
+  <section class="weiter" aria-labelledby="weiter-titel">
+    <div class="wrap">
+      <h2 id="weiter-titel">Ähnliche Schwindelformen</h2>
+      <Liste eintraege={e.verwandt.map(finde)} />
+    </div>
+  </section>
+  <Kontaktband />
+</Base>

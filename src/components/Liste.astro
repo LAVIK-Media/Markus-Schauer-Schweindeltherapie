@@ -1,0 +1,9 @@
+---
+import Bild from './Bild.astro';
+import Pfeil from './Pfeil.astro';
+interface Props { eintraege: { href: string; name: string; teaser: string; bild: string }[] }
+const { eintraege } = Astro.props;
+---
+<ul class="liste">
+  {eintraege.map((e) => <li><a href={e.href}><Bild name={e.bild} sizes="120px" /><span><b>{e.name}</b><small>{e.teaser}</small></span><Pfeil /></a></li>)}
+</ul>
