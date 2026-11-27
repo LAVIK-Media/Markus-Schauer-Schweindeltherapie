@@ -87,7 +87,7 @@ const istAktiv = (h: string) => aktuell === h || (h !== '/' && aktuell.startsWit
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="geo.region" content="DE-BY" />
     <meta name="geo.placename" content={SITE.ort} />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#0A1F35" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -100,8 +100,9 @@ const istAktiv = (h: string) => aktuell === h || (h !== '/' && aktuell.startsWit
     <a class="sprung" href="#inhalt">Zum Inhalt springen</a>
     <div class="infozeile">
       <div class="wrap">
-        <span>{SITE.strasse}, {SITE.plz} {SITE.ort}</span>
-        <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        <span class="lang">{SITE.strasse}, {SITE.plz} {SITE.ort}</span>
+        <a class="lang" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        <span class="kurz">Praxis in {SITE.ort}</span>
         <a class="rechts" href={`tel:${SITE.telefonLink}`}>Telefon {SITE.telefonAnzeige}</a>
       </div>
     </div>

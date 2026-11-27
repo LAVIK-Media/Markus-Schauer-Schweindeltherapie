@@ -50,7 +50,7 @@
 :root[data-licht='gedaempft'] img { filter: brightness(0.78); }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-padding-top: 110px; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 110px; background: var(--nacht); }
 body { margin: 0; background: var(--grund); color: var(--text); font: 400 1.125rem/1.62 var(--lauf); overflow-wrap: break-word; -webkit-font-smoothing: antialiased; }
 img, svg { display: block; max-width: 100%; }
 img { height: auto; }
@@ -64,7 +64,10 @@ h1, h2 { font-family: var(--titel); font-weight: 400; letter-spacing: -0.022em; 
 h1 { font-size: clamp(2.9rem, 1.5rem + 5.6vw, 6.1rem); }
 h2 { font-size: clamp(2.2rem, 1.5rem + 2.9vw, 4rem); }
 h3 { font-size: 1.22rem; font-weight: 600; letter-spacing: -0.012em; line-height: 1.25; }
-@media (max-width: 720px) { h1, h2, h3 { hyphens: auto; hyphenate-limit-chars: 12 6 5; } }
+h1, h2, h3 { -webkit-hyphens: manual; hyphens: manual; }
+@media (max-width: 719px) { h1, h2, h3 { -webkit-hyphens: auto; hyphens: auto; hyphenate-limit-chars: 10 4 4; } }
+/* Einspaltige Raster: lange deutsche Wörter dürfen die Spalte nicht aufdrücken */
+:is(.weg, .karte-text, .merkmal, .blick, .meldungen article, .lauf, .lauf section, .organ-text, .kontaktband-text, .person-text, .held-inhalt, .faq-links, .seite, .umgebung-text, .formular, .kompakt) { grid-template-columns: minmax(0, 1fr); }
 address { font-style: normal; }
 .wrap { width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: var(--rand); }
 .sprung { position: absolute; left: -9999px; }
@@ -88,12 +91,13 @@ address { font-style: normal; }
 .chip:hover { border-color: var(--blau); color: var(--blau); }
 
 /* Kopf */
-.infozeile { background: var(--grund-2); color: var(--text-2); font-size: 0.97rem; display: none; }
-.infozeile .wrap { display: flex; gap: 34px; align-items: center; min-height: 44px; }
-.infozeile a { text-decoration: none; }
-.infozeile a:hover { color: var(--blau); text-decoration: underline; }
-.infozeile .rechts { margin-left: auto; color: var(--text); font-weight: 600; }
-@media (min-width: 820px) { .infozeile { display: block; } }
+.infozeile { background: var(--nacht); color: var(--hell-2); font-size: 0.95rem; }
+.infozeile .wrap { display: flex; gap: 30px; align-items: center; min-height: 42px; }
+.infozeile a { text-decoration: none; color: var(--hell); }
+.infozeile a:hover { text-decoration: underline; }
+.infozeile .rechts { margin-left: auto; color: #fff; font-weight: 600; }
+.infozeile .kurz { display: none; }
+@media (max-width: 819px) { .infozeile .lang { display: none; } .infozeile .kurz { display: inline; } .infozeile .wrap { min-height: 36px; } }
 .kopf { position: sticky; top: 0; z-index: 50; background: var(--grund); border-bottom: 1px solid var(--linie); }
 .kopf-zeile { display: flex; align-items: center; gap: clamp(14px, 2vw, 30px); min-height: 84px; }
 .marke { display: inline-flex; align-items: center; gap: 13px; text-decoration: none; margin-right: auto; }
@@ -313,6 +317,7 @@ address { font-style: normal; }
 .kopfband { background: var(--grund-2); }
 .kopfband-grid { display: grid; gap: 34px clamp(40px, 6vw, 100px); padding-block: 30px clamp(44px, 5vw, 80px); align-items: center; }
 .kopfband h1 { font-size: clamp(2.5rem, 1.6rem + 3.4vw, 4.6rem); max-width: 13em; }
+.kopfband-grid.bild h1 { font-size: clamp(2.4rem, 1.5rem + 2.7vw, 4rem); }
 .kopfband .unter { color: var(--blau); font-weight: 600; font-size: 1.1em; margin-top: 16px; }
 .kopfband .kurzantwort { font-size: clamp(1.12rem, 1.04rem + 0.36vw, 1.28rem); line-height: 1.58; max-width: 36em; margin-top: 20px; }
 .kopfband-bild img { width: 100%; aspect-ratio: 4 / 3.1; object-fit: cover; border-radius: var(--rund); }
@@ -330,7 +335,7 @@ address { font-style: normal; }
 .lauf section { display: grid; gap: 16px; align-content: start; }
 .lauf h2 { font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.5rem); line-height: 1.1; }
 .voll { padding-block: clamp(56px, 6.4vw, 104px); display: grid; gap: clamp(44px, 5vw, 76px); }
-.voll h2 { font-size: clamp(1.9rem, 1.5rem + 1.5vw, 2.8rem); }
+.voll > h2, .voll > section > h2 { font-size: clamp(1.9rem, 1.5rem + 1.5vw, 2.8rem); }
 .punkte { list-style: none; padding: 0; }
 .punkte li { position: relative; padding: 9px 0 9px 34px; line-height: 1.5; }
 .punkte li::before { content: ''; position: absolute; left: 0; top: 1.06em; width: 18px; height: 2px; background: var(--akzent-tief); border-radius: 2px; }
